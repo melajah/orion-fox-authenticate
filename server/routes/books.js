@@ -1,9 +1,9 @@
-const express = require('express')
-const router = express.Router()
-const booksController = require('../controllers/books')
+const express = require('express');
+const router = express.Router();
+const BookController = require('../controllers/BookController');
 
-router.get('/', booksController.getBooks)
-router.get('/:id', booksController.getBook)
-router.post('/', booksController.createBooks)
+router.get('/', BookController.getBooks);
+router.get('/:id', BookController.getBook);
+router.post('/', BookController.createBooks);
 
-module.exports = router
+module.exports = router;
