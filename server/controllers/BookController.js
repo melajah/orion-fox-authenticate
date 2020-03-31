@@ -1,8 +1,11 @@
 const { Book, User } = require('../models');
 
 class Books {
-  static getBooks(req, res) {
+  static getBooks(req, res, next) {
     Book.findAll({
+      where: {
+        UserId: req.userId
+      },
       include: [{
           model: User,
           required: false
@@ -12,12 +15,10 @@ class Books {
         console.log(books, 'ini books');
         res.status(200).json({ books: books });
       })
-      .catch((err) => {
-        res.status(500).json(err);
-      });
+      .catch(next);
   }
 
-  static getBook(req, res) {
+  static getBook(req, res, next) {
     const id = req.params.id;
     Book.findOne({ where: { id: id } })
       .then((book) => {
@@ -29,28 +30,23 @@ class Books {
           });
         }
       })
-      .catch((err) => {
-        console.log(err, 'ini error get book');
-        res.status(500).json(err);
-      });
+      .catch(next);
   }
 
-  static createBooks(req, res) {
+  static createBooks(req, res, next) {
+    console.log(req.userId, 'dari decoded')
     const { title, description } = req.body;
     console.log(req.body)
     Book.create({
       title,
       description: description,
-      UserId: 1
+      UserId: req.userId
     })
       .then((book) => {
         console.log(book, 'ini book hasil create');
         res.status(201).json({ book });
       })
-      .catch((err) => {
-        console.log(err, 'ini error create book');
-        res.status(500).json(err);
-      });
+      .catch(next);
   }
 }
 
