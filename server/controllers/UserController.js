@@ -37,7 +37,7 @@ class UserController  {
       })
       .then(user => {
          const messageError = {
-              name: 'ValidationError',
+              name: 'SequelizeValidationError',
               errors: [{
                   message: 'email/password incorrect'
               }]
